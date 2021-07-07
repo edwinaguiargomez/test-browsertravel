@@ -1,12 +1,8 @@
 ﻿using Logic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using WebApp.Extensions;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -50,9 +46,16 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Remove(int id)
         {
-            EditorialModel model = new EditorialModel();
-            model.Editorial = new EditorialLogic().Get(id);
-            new EditorialLogic().Remove(model.Editorial);
+            try
+            {
+                EditorialModel model = new EditorialModel();
+                model.Editorial = new EditorialLogic().Get(id);
+                new EditorialLogic().Remove(model.Editorial);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e.GetFullErrorMessage());
+            }
             return Get();
         }
 
@@ -77,7 +80,7 @@ namespace WebApp.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Error", e.Message);
+                ModelState.AddModelError("Error", e.GetFullErrorMessage());
             }
             
             return View("Master", model);

@@ -5,6 +5,13 @@ namespace AssemblyStructure
 {
     public class Context : DbContext
     {
+        IDBConfig _dBConfig;
+
+        public Context(IDBConfig dBConfig)
+        {
+            _dBConfig = dBConfig;
+        }
+
         public DbSet<Autor> Autor { get; set; }
         public DbSet<AutoresHasLibros> AutoresHasLibros { get; set; }
         public DbSet<Editorial> Editorial { get; set; }
@@ -14,7 +21,7 @@ namespace AssemblyStructure
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(new DBConfig().GetStringConnection());
+                optionsBuilder.UseSqlServer(_dBConfig.GetStringConnection());
             }
         }
 

@@ -11,10 +11,18 @@ namespace AssemblyStructure
     public class GenericRepository<T> where T : EntityInfrastructure
     {
         private DbSet<T> DbSet;
-        private Context Context = new Context();
+        private Context Context;
+
+        public GenericRepository(IDBConfig dBConfig)
+        {
+            Context = new Context(dBConfig);
+            this.DbSet = Context.Set<T>();
+            //Context.Database.EnsureCreated();
+        }
 
         public GenericRepository()
         {
+            Context = new Context(new DBConfig { PathDB = "../TravelDB.mdf" });
             this.DbSet = Context.Set<T>();
             //Context.Database.EnsureCreated();
         }

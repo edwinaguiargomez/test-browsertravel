@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using WebApp.Extensions;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -55,13 +52,12 @@ namespace WebApp.Controllers
                 LibroModel model = new LibroModel();
                 model.Libro = new LibroLogic().Get(id);
                 new LibroLogic().Remove(model.Libro);
-                return Get();
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Error", e.Message);
-                return Update(id);
+                ModelState.AddModelError("Error", e.GetFullErrorMessage());
             }
+            return Get();
         }
 
 
@@ -85,7 +81,7 @@ namespace WebApp.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Error", e.Message);
+                ModelState.AddModelError("Error", e.GetFullErrorMessage());
             }
 
             return View("Master", model);

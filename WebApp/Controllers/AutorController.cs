@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using WebApp.Extensions;
 using WebApp.Models;
 
 namespace WebApp.Controllers
@@ -50,9 +48,16 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult Remove(int id)
         {
-            AutorModel model = new AutorModel();
-            model.Autor = new AutorLogic().Get(id);
-            new AutorLogic().Remove(model.Autor);
+            try
+            {
+                AutorModel model = new AutorModel();
+                model.Autor = new AutorLogic().Get(id);
+                new AutorLogic().Remove(model.Autor);
+            }
+            catch (Exception e)
+            {
+                ModelState.AddModelError("Error", e.GetFullErrorMessage());
+            }
             return Get();
         }
 
@@ -77,7 +82,7 @@ namespace WebApp.Controllers
             }
             catch (Exception e)
             {
-                ModelState.AddModelError("Error", e.Message);
+                ModelState.AddModelError("Error", e.GetFullErrorMessage());
             }
             
             return View("Master", model);
