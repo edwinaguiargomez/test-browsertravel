@@ -1,0 +1,36 @@
+﻿@model List<Editorial>
+@{
+    ViewData["Title"] = "Autores";
+}
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand">@ViewData["Title"]</a>
+        <form class="d-flex">
+            <a class="btn btn-outline-secondary" href="@Url.Action("Create",nameof(Editorial))">Nuevo</a>
+        </form>
+    </div>
+</nav>
+<table class="table table-sm table-responsive table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Nombres</th>
+            <th scope="col">Apellidos</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var editorial in Model)
+        {
+            <tr>
+                <th scope="row">@editorial.Nombre</th>
+                <th scope="row">@editorial.Sede</th>
+                <th scope="row">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Update",nameof(Editorial), new { id = editorial.Id })">Editar</a>
+                        <a class="btn btn-sm btn-outline-danger" href="@Url.Action("Remove",nameof(Editorial), new { id = editorial.Id })">Eliminar</a>
+                    </div>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

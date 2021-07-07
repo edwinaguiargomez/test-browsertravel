@@ -1,0 +1,69 @@
+﻿@model AutorModel
+@{
+    ViewData["Title"] = "Autores";
+}
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Get", nameof(Autor))">Atras</a>
+        <a class="navbar-brand">@ViewData["Title"]</a>
+        <form class="d-flex">
+            <a class="btn btn-outline-secondary" href="@Url.Action("Create", nameof(Autor))">Nuevo</a>
+        </form>
+    </div>
+</nav>
+
+<form asp-controller="@nameof(Autor)" asp-action="Edit" class="form-horizontal">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input hidden type="checkbox" asp-for="@Model.Autor.IsNew">
+    <input hidden type="number" asp-for="@Model.Autor.Id">
+
+    <div class="row">
+        <div class="col-md-6 mb-6">
+            <label for="Nombres" class="form-label">Nombres</label>
+            <input class="form-control" id="Nombres" asp-for="@Model.Autor.Nombres">
+            <span asp-validation-for="@Model.Autor.Nombres" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-6">
+            <label for="Apellidos" class="form-label">Apellidos</label>
+            <input class="form-control" id="Apellidos" asp-for="@Model.Autor.Apellidos">
+            <span asp-validation-for="@Model.Autor.Apellidos" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-12" style="margin-top:20px">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</form>
+
+<div class="row" style="margin-top:30px">
+    @{
+        Html.RenderPartial("../Libro/List",Model.ListLibros);
+    }
+    @*<table class="table table-sm table-responsive table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Nombres</th>
+                    <th scope="col">Apellidos</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var autor in Model.ListAutor)
+                {
+                    <tr>
+                        <th scope="row">@autor.Nombres</th>
+                        <th scope="row">@autor.Apellidos</th>
+                        <th scope="row">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Update","Libro", new { id = autor.Id })">Editar</a>
+                                <a class="btn btn-sm btn-outline-danger" href="@Url.Action("Remove","Libro", new { id = autor.Id })">Eliminar</a>
+                            </div>
+                        </th>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+</div>
+

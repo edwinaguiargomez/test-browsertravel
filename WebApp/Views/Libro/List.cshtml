@@ -1,0 +1,42 @@
+﻿@model List<Libro>
+@{
+    ViewData["Title"] = "Libros";
+}
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand">@ViewData["Title"]</a>
+        <form class="d-flex">
+            <a class="btn btn-outline-secondary" href="@Url.Action("Create",nameof(Libro))">Nuevo</a>
+        </form>
+    </div>
+</nav>
+<table class="table table-sm table-responsive table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Titulo</th>
+            <th scope="col">No. Paginas</th>
+            <th scope="col">Editorial</th>
+            <th scope="col">Sinopsis</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var libro in Model)
+        {
+            <tr>
+                <th scope="row">@libro.Id</th>
+                <th scope="row">@libro.Titulo</th>
+                <th scope="row">@libro.NPaginas</th>
+                <th scope="row">@libro.Editorial?.Nombre</th>
+                <th scope="row">@libro.Sinopsis</th>
+                <th scope="row">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Update",nameof(Libro), new { id = libro.Id })">Editar</a>
+                        <a class="btn btn-sm btn-outline-danger" href="@Url.Action("Remove",nameof(Libro), new { id = libro.Id })">Eliminar</a>
+                    </div>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,56 @@
+﻿@model LibroModel
+@{
+    ViewData["Title"] = "Libros";
+}
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="btn btn-sm btn-outline-secondary" href="@Url.Action("Get",nameof(Libro))">Atras</a>
+        <a class="navbar-brand">@ViewData["Title"]</a>
+        <form class="d-flex">
+            <a class="btn btn-outline-secondary" href="@Url.Action("Create",nameof(Libro))">Nuevo</a>
+        </form>
+    </div>
+</nav>
+
+<form asp-controller="@nameof(Libro)" asp-action="Edit" class="form-horizontal">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input hidden type="checkbox" asp-for="@Model.Libro.IsNew">
+    <input hidden type="number" asp-for="@Model.Libro.Id">
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <label for="Titulo" class="form-label">Titulo</label>
+            <input class="form-control" id="Titulo" asp-for="@Model.Libro.Titulo">
+            <span asp-validation-for="@Model.Libro.Titulo" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-4">
+            <label for="NPaginas" class="form-label">No. Paginas</label>
+            <input class="form-control" type="number" id="NPaginas" asp-for="@Model.Libro.NPaginas">
+            <span asp-validation-for="@Model.Libro.NPaginas" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-4">
+            <label for="EditorialId" class="form-label">Editorial</label>
+            @*<input class="form-control" id="NPaginas" asp-for="@Model.Libro.Titulo">*@
+            <select class="form-select" id="EditorialId" asp-for="@Model.Libro.EditorialId">
+                @foreach (var editorial in Model.ListEditoriales)
+                {
+                    <option value="@editorial.Id">@editorial.Nombre</option>
+                }
+            </select>
+            <span asp-validation-for="@Model.Libro.EditorialId" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-12">
+            <label for="Sinopsis" class="form-label">Sinopsis</label>
+            <textarea class="form-control" id="Sinopsis" asp-for="@Model.Libro.Sinopsis"></textarea>
+            <span asp-validation-for="@Model.Libro.Sinopsis" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-12" style="margin-top:20px">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+</form>
